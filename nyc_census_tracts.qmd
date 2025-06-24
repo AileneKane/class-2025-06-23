@@ -1,0 +1,41 @@
+---
+title: "NYC Census Tracts"
+author: "Ailene Ettinger"
+format: html
+---
+
+```{r}
+#| label: setup
+#| message: false
+#| echo: false
+
+library(tidyverse)
+library(scales)
+
+# Read the CSV file
+nyc <- read_csv("nyc_tracts.csv")
+
+
+# Check column names
+names(nyc)
+head(nyc)
+
+# Make a boxplot of Median Income by race
+
+# First remove r_ows with NA income values for plotting
+nyc_clean <- read_csv("nyc_tracts.csv") %>% filter(!is.na(med_income))
+
+# Box plot of median income by race
+ggplot(nyc_clean, aes(x = race, y = med_income, fill = race)) +
+  geom_boxplot() +
+  scale_y_continuous(labels = dollar_format()) +
+  labs(title = "NYC Census Tracts: Race vs. Median Income",
+       subtitle = "NYC Census Tracts",
+       x = "Race",
+       y = "Median Income") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "none")
+
+```
+`
